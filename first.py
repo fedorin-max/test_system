@@ -12,8 +12,9 @@ class User(db.Model):
     email = db.Column(db.String(120), nullable = False, unique= True)
     #хеширований пароль
     password = db.Column(db.String(100), nullable = False)
+    role = db.Column(db.String(10), nullable = False, default="student")
 
-    #статичний метод лоя хешування паролів
+    #статичний метод для хешування паролів
     @staticmethod
     def hash_password(password):
         return bcrypt.generate_password_hash(password).decode('utf-8')

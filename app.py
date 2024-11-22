@@ -1,3 +1,5 @@
+from email.policy import default
+
 from flask import Flask, render_template, request, redirect, url_for,flash
 #підтягуємо із файла first БД, клас користувача та хешування
 from first import db, User, bcrypt
@@ -26,6 +28,7 @@ def register():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
+        role = request.form['role']
 
         #перевірка наявности імені у БД
         if User.query.filter_by(username = username).first():
@@ -39,7 +42,7 @@ def register():
         #свторюємо хеширований пароль
         hashed_password = User.hash_password(password)
         #створюємо екземпляр класа, куди передаємо наші дані
-        new_user = User(username = username, email=email, password=hashed_password)
+        new_user = User(username = username, email=email, password=hashed_password, role=role)
         db.session.add(new_user)
         db.session.commit()#закриваємо сессію
 
